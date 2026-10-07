@@ -3,107 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia Play - Coral</title>
+    <title>Guia Play - Ouça → Pratique → Repita → Aprenda</title>
     
-    <!-- ÍCONE E MANIFEST -->
-    <link rel="icon" type="image/jpeg" href="icone.jpg">
+    <!-- ÍCONE DO APLICATIVO E MANIFEST PWA -->
+    <link rel="icon" type="image/png" href="icone.png">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#F9876F">
 
     <style>
         :root {
-            --primary: #F9876F;
-            --primary-dark: #E38C92;
-            --background: #FFF8F4;
-            --surface: #FBFBFB;
-            --text: #1E1E1E;
-            --muted-text: #636363;
-            --border: #E8DFD8;
-            --loop-color: #52B788;
+            --primary: #4a6fa5;
+            --primary-dark: #3b5984;
+            --secondary: #f4f6f9;
+            --accent: #ff6b6b;
+            --text: #2c3e50;
+            --card-bg: #ffffff;
+            --border: #e1e8ed;
+            --loop-color: #059669;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--background);
+            background-color: #f0f4f8;
             color: var(--text);
             padding: 15px;
             max-width: 800px;
             margin: 0 auto;
-            padding-bottom: 40px;
         }
 
         header {
+            text-align: center;
+            padding: 15px 0 10px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0 20px 0;
         }
 
         h1 {
             font-size: 1.4rem;
-            color: var(--text);
-            font-weight: 700;
-        }
-
-        .btn-info-icon {
-            background-color: var(--primary-dark);
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            cursor: pointer;
+            color: var(--primary-dark);
         }
 
         .card {
-            background: var(--surface);
-            border-radius: 16px;
+            background: var(--card-bg);
+            border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--border);
         }
 
         .section-title {
             font-size: 1.1rem;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 12px;
-            color: var(--text);
+            color: var(--primary);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
+        .form-group {
+            margin-bottom: 15px;
+        }
+
         label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--muted-text);
+            margin-bottom: 5px;
         }
 
-        select, input[type="range"] {
+        input[type="text"], select {
             width: 100%;
             padding: 10px;
-            border-radius: 10px;
             border: 1px solid var(--border);
-            background: white;
-            margin-bottom: 15px;
+            border-radius: 8px;
             font-size: 0.95rem;
+            outline: none;
         }
 
-        .controls-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 10px;
-            margin-bottom: 15px;
+        input[type="file"] {
+            display: none;
         }
 
         .btn {
@@ -111,24 +97,38 @@
             color: white;
             border: none;
             padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 0.9rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            transition: opacity 0.2s;
+            gap: 8px;
+            transition: background 0.2s;
+            text-decoration: none;
         }
 
         .btn:hover {
-            opacity: 0.9;
+            background-color: var(--primary-dark);
         }
 
         .btn-secondary {
-            background-color: #E2E8F0;
+            background-color: #e2e8f0;
             color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
+        }
+
+        .btn-danger {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #ee5252;
         }
 
         .btn-loop {
@@ -136,319 +136,1106 @@
             color: white;
         }
 
-        .btn-active {
-            outline: 2px solid var(--text);
+        .btn-loop:hover {
+            background-color: #047857;
+        }
+
+        .btn-sm {
+            padding: 6px 10px;
+            font-size: 0.85rem;
+        }
+
+        .player-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .track-title-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .track-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            word-break: break-word;
+        }
+
+        .audio-tracks-select {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .time-display {
+            display: flex;
+            justify-content: space-between;
             font-size: 0.85rem;
-            color: var(--muted-text);
-            text-align: center;
-            margin-bottom: 10px;
+            color: #64748b;
+            margin-top: 4px;
         }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 12px;
+            background-color: #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 6px;
+            width: 0%;
+        }
+
+        .loop-region {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            background-color: rgba(16, 185, 129, 0.4);
+            border-left: 2px solid var(--loop-color);
+            border-right: 2px solid var(--loop-color);
+            pointer-events: none;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 5px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            padding: 0;
+        }
+
+        .rate-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #f1f5f9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .loop-box {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .loop-box-header {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #065f46;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .loop-controls-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .markers-section {
+            margin-top: 10px;
+            border-top: 1px dashed var(--border);
+            padding-top: 15px;
+        }
+
+        .markers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .marker-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .marker-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            flex-grow: 1;
+        }
+
+        .marker-time {
+            font-family: monospace;
+            font-weight: bold;
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .audio-list-manage {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .audio-item-manage {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .song-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .song-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            gap: 10px;
+        }
+
+        .song-card-title {
+            font-weight: 600;
+            flex-grow: 1;
+        }
+
+        .song-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .order-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .order-btn {
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            line-height: 1;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 15px;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+        .status-saved { background: #dcfce7; color: #166534; }
+        .status-processing { background: #fef3c7; color: #92400e; }
+        .status-empty { background: #fee2e2; color: #991b1b; }
 
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            border-radius: 12px;
+            border-radius: 8px;
             background: #000;
+            margin-top: 10px;
         }
 
         .video-container iframe {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             border: 0;
         }
 
-        /* MODAL */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.4);
+        .video-fallback-bar {
+            margin-top: 10px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal {
-            background: white;
-            border-radius: 20px;
-            padding: 24px;
-            width: 100%;
-            max-width: 480px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .modal-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 12px;
-            color: var(--text);
-        }
-
-        .modal-body {
-            font-size: 0.92rem;
-            line-height: 1.5;
-            color: var(--muted-text);
-            margin-bottom: 20px;
-        }
-
-        .modal-body ul {
-            margin-left: 20px;
-            margin-top: 8px;
-        }
-
-        .modal-body li {
-            margin-bottom: 6px;
-        }
-
-        .hidden {
-            display: none !important;
+            background: #f1f5f9;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Guia Play - Coral</h1>
-        <button class="btn-info-icon" id="btnOpenNotice">ℹ️ Aviso</button>
+        <h1>Guia Play - Ouça → Pratique → Repita → Aprenda</h1>
     </header>
 
-    <!-- JANELA POP-UP DE AVISO (TEXTO COM "CELULAR") -->
-    <div id="noticeModal" class="modal-overlay hidden">
-        <div class="modal">
-            <div class="modal-title">ℹ️ Como funciona o acesso offline:</div>
-            <div class="modal-body">
-                <p>Para utilizar o aplicativo nos ensaios sem gastar a sua internet:</p>
-                <ul>
-                    <li><strong>Primeira vez:</strong> Abra as músicas enquanto estiver conectado ao Wi-Fi para salvar os áudios no celular.</li>
-                    <li><strong>Uso offline:</strong> Depois de carregar, o aplicativo funciona sem internet.</li>
-                    <li><strong>Atenção:</strong> Se limpar o cache ou os dados do navegador do celular, você perderá os trechos salvos para repetir e precisará se conectar à internet mais uma vez para recarregar os áudios.</li>
-                    <li><em>Nota: Os vídeos do YouTube precisam de conexão com a internet para rodar.</em></li>
-                </ul>
+    <!-- PLAYER PRINCIPAL -->
+    <div id="playerCard" class="card hidden">
+        <div class="player-container">
+            <div class="track-title-container">
+                <div class="track-title" id="currentSongTitle">Título da Música</div>
+                <button class="btn btn-secondary btn-sm" id="btnEditCurrent">✏️ Editar Música</button>
             </div>
-            <button class="btn" style="width: 100%;" id="btnCloseNotice">Entendi!</button>
+
+            <div class="audio-tracks-select">
+                <div>
+                    <label for="selectAudioTrack">🎧 Selecionar Faixa / Naipe:</label>
+                    <select id="selectAudioTrack"></select>
+                </div>
+                
+                <!-- CONTROLLER DE ÁUDIO LOCAL -->
+                <div id="localAudioControls" class="hidden">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                        <label for="inputLocalAudio" class="btn btn-sm" style="cursor: pointer; margin: 0; width: 100%;">
+                            📂 Importar Ficheiro Local (MP3, MP4...)
+                        </label>
+                        <input type="file" id="inputLocalAudio" accept="audio/*,video/*">
+                    </div>
+                    <div id="currentLoadedFile" style="font-size: 0.85rem; color: #64748b; display: flex; align-items: center; justify-content: space-between; margin-top: 8px;">
+                        <span>Status do ficheiro local:</span>
+                        <span id="audioStatusBadge" class="status-badge status-empty">Nenhum áudio salvo</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PLAYER PARA VÍDEO LINKADO (EMBED) -->
+            <div id="videoEmbedArea" class="hidden">
+                <div class="video-container" id="videoIframeContainer"></div>
+                <div class="video-fallback-bar">
+                    <span>Vídeo indisponível ou com bloqueio no player?</span>
+                    <a id="btnExternalVideo" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">🔗 Abrir direto no YouTube</a>
+                </div>
+            </div>
+
+            <!-- CONTROLES PARA ÁUDIO LOCAL -->
+            <div id="audioLocalControlsArea">
+                <div>
+                    <div class="progress-bar-container" id="progressContainer">
+                        <div class="progress-bar" id="progressBar"></div>
+                        <div class="loop-region hidden" id="loopRegion"></div>
+                    </div>
+                    <div class="time-display">
+                        <span id="currentTime">0:00</span>
+                        <span id="duration">0:00</span>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-secondary" id="btnRewind5">⏮️ -5s</button>
+                    <button class="btn btn-circle" id="btnPlayPause">▶️</button>
+                    <button class="btn btn-secondary" id="btnForward5">+5s ⏭️</button>
+                </div>
+
+                <div class="controls">
+                    <div class="rate-control">
+                        <span>Velocidade:</span>
+                        <button class="btn btn-secondary btn-sm" id="btnSpeedDown">-</button>
+                        <span id="speedValue">1.0x</span>
+                        <button class="btn btn-secondary btn-sm" id="btnSpeedUp">+</button>
+                    </div>
+                </div>
+
+                <!-- CONTROLE DE LOOPING A-B -->
+                <div class="loop-box">
+                    <div class="loop-box-header">
+                        <span>🔁 Repetição Contínua de Trecho (Looping A-B)</span>
+                        <span id="loopStatusText" style="font-size: 0.8rem; color: #047857;">Inativo</span>
+                    </div>
+                    <div class="loop-controls-group">
+                        <button class="btn btn-loop btn-sm" id="btnSetLoopA">1️⃣ Início (A)</button>
+                        <button class="btn btn-loop btn-sm" id="btnSetLoopB">2️⃣ Fim (B)</button>
+                        <button class="btn btn-secondary btn-sm" id="btnClearLoop">✕ Limpar Loop</button>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO DE TRECHOS MARCADOS -->
+                <div class="markers-section">
+                    <div class="section-title">
+                        <span>📌 Trechos para Repetir</span>
+                        <button class="btn btn-sm" id="btnAddMarker">📌▶️ + Criar ponto de repetição</button>
+                    </div>
+                    <div id="markersList" class="markers-list"></div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- PAINEL DE ÁUDIO -->
+    <!-- LISTA DE MÚSICAS -->
     <div class="card">
         <div class="section-title">
-            <span>🎵 Player de Ensaio</span>
+            <span>📚 Minhas Músicas</span>
+            <button class="btn btn-sm" id="btnOpenNewSongModal">+ Nova Música</button>
         </div>
-
-       <label for="songSelect">Selecione a Guia de Ensaio (Everyone Sang):</label>
-<select id="songSelect">
-    <!-- BAIXOS / TENORES -->
-    <optgroup label="Baixos / Tenores">
-        <option value="https://docs.google.com/uc?export=download&id=1Nsp2p9HRg-s4qPDmyNcRI74gyPmt5GU_">Baixos/Tenores - Base Piano</option>
-        <option value="https://docs.google.com/uc?export=download&id=1IO7MUamKXdWENyKDyYxgNQsOanAE6pM0">Baixos/Tenores - Cantado</option>
-        <option value="https://docs.google.com/uc?export=download&id=1Ajahpp6mePbHHrS1pr5Ob2C1PJbkwD14">Baixos/Tenores - Ritmo Falado</option>
-    </optgroup>
-
-    <!-- CONTRALTOS -->
-    <optgroup label="Contraltos">
-        <option value="https://docs.google.com/uc?export=download&id=13Rcx9Oxo9_mZryByQw4I_PPtxsq51648">Contraltos - Base Piano</option>
-        <option value="https://docs.google.com/uc?export=download&id=1cIB7gt8JghXP7e19FXRLXgeIGz0gb3vr">Contraltos - Cantado</option>
-        <option value="https://docs.google.com/uc?export=download&id=1KGNjLpWsQpHjqigO-tG6JORj0-dJWYPS">Contraltos - Ritmo Falado</option>
-    </optgroup>
-
-    <!-- SOPRANOS -->
-    <optgroup label="Sopranos">
-        <option value="https://docs.google.com/uc?export=download&id=1ijH6I0yQCBFgbYSbxXPJ23OYpAZTeEGV">Sopranos - Base Piano</option>
-        <option value="https://docs.google.com/uc?export=download&id=1kk1RzQZdUJQTlgwrNQ_LJIQPxbOqnze1">Sopranos - Cantado</option>
-        <option value="https://docs.google.com/uc?export=download&id=1TAXMFOshHm6koLx7ftOqeXZ4uhuYsTDr">Sopranos - Ritmo Falado</option>
-    </optgroup>
-</select>
-        </select>
-
-        <audio id="audioPlayer" src="audio1.mp3"></audio>
-
-        <div class="time-display">
-            <span id="currentTime">00:00</span> / <span id="durationTime">00:00</span>
-        </div>
-
-        <input type="range" id="progressBar" value="0" min="0" step="0.1">
-
-        <div class="controls-grid">
-            <button class="btn" id="btnPlayPause">▶️ Play / Pausa</button>
-            <button class="btn btn-secondary" id="btnSpeed">⚡ Velocidade: 1x</button>
-        </div>
-
-        <div class="section-title" style="font-size: 0.95rem; margin-top: 15px;">
-            <span>🔁 Repetir Trecho (Loop A-B)</span>
-        </div>
-
-        <div class="controls-grid">
-            <button class="btn btn-secondary" id="btnSetA">Ponto A (Início)</button>
-            <button class="btn btn-secondary" id="btnSetB">Ponto B (Fim)</button>
-            <button class="btn btn-loop" id="btnToggleLoop">Ativar Loop</button>
-            <button class="btn btn-secondary" id="btnClearLoop">Limpar Loop</button>
-        </div>
-        <p id="loopStatus" style="font-size: 0.8rem; color: var(--muted-text); text-align: center; margin-top: 5px;">Nenhum trecho marcado.</p>
+        <div id="songsList" class="song-list"></div>
     </div>
 
-    <!-- PAINEL DE VÍDEO (YOUTUBE) -->
-    <div class="card">
-        <div class="section-title">
-            <span>📺 Vídeo de Apoio (Requer Internet)</span>
-        </div>
-        <div class="video-container">
-            <!-- Substitua o ID do vídeo do YouTube conforme a sua necessidade -->
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+    <!-- MODAL DE CADASTRO/EDIÇÃO -->
+    <div id="songModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="section-title">
+                <span id="modalTitle">Cadastrar Música</span>
+                <button class="btn btn-secondary btn-sm" id="btnCloseModal">✕</button>
+            </div>
+
+            <div class="form-group">
+                <label for="inputSongTitle">Nome da Música:</label>
+                <input type="text" id="inputSongTitle" placeholder="Ex: Sabiá Laranjeira">
+            </div>
+
+            <div class="form-group">
+                <label>Faixas / Naipes da Música:</label>
+                <div id="audioManageList" class="audio-list-manage"></div>
+                <button class="btn btn-secondary btn-sm" id="btnAddTrackField" style="margin-top: 10px;">+ Adicionar Faixa/Naipe</button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <button class="btn btn-danger btn-sm" id="btnDeleteSong" style="display: none;">🗑️ Excluir Música</button>
+                <button class="btn" id="btnSaveSong">Salvar</button>
+            </div>
         </div>
     </div>
 
     <script>
-	const songSelect = document.getElementById('songSelect');
+        class AudioStorage {
+            constructor() {
+                this.dbName = 'MusicAppAudioDB';
+                this.dbVersion = 1;
+                this.db = null;
+            }
 
-// Trocar o áudio e reiniciar marcações ao selecionar outra guia
-songSelect.addEventListener('change', () => {
-    audio.src = songSelect.value;
-    audio.load();
-    btnPlayPause.textContent = '▶️ Play';
-    
-    // Limpa o loop para a nova faixa
-    pointA = null;
-    pointB = null;
-    isLoopActive = false;
-    btnToggleLoop.classList.remove('btn-active');
-    updateLoopUI();
-});
-        // --- POPUP DE AVISO ---
-        const noticeModal = document.getElementById('noticeModal');
-        const btnOpenNotice = document.getElementById('btnOpenNotice');
-        const btnCloseNotice = document.getElementById('btnCloseNotice');
+            async init() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(this.dbName, this.dbVersion);
+                    request.onupgradeneeded = (e) => {
+                        const db = e.target.result;
+                        if (!db.objectStoreNames.contains('audios')) {
+                            db.createObjectStore('audios');
+                        }
+                    };
+                    request.onsuccess = (e) => {
+                        this.db = e.target.result;
+                        resolve();
+                    };
+                    request.onerror = (e) => reject(e.target.error);
+                });
+            }
 
-        if (!localStorage.getItem('guia_play_notice_seen')) {
-            noticeModal.classList.remove('hidden');
+            async saveAudio(key, fileBlob) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['audios'], 'readwrite');
+                    const store = transaction.objectStore('audios');
+                    const request = store.put(fileBlob, key);
+                    request.onsuccess = () => resolve();
+                    request.onerror = (e) => reject(e.target.error);
+                });
+            }
+
+            async getAudio(key) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['audios'], 'readonly');
+                    const store = transaction.objectStore('audios');
+                    const request = store.get(key);
+                    request.onsuccess = (e) => resolve(e.target.result);
+                    request.onerror = (e) => reject(e.target.error);
+                });
+            }
+
+            async deleteAudio(key) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['audios'], 'readwrite');
+                    const store = transaction.objectStore('audios');
+                    const request = store.delete(key);
+                    request.onsuccess = () => resolve();
+                    request.onerror = (e) => reject(e.target.error);
+                });
+            }
         }
 
-        btnOpenNotice.addEventListener('click', () => noticeModal.classList.remove('hidden'));
-        btnCloseNotice.addEventListener('click', () => {
-            localStorage.setItem('guia_play_notice_seen', 'true');
-            noticeModal.classList.add('hidden');
-        });
+        const audioDB = new AudioStorage();
+        let songs = JSON.parse(localStorage.getItem('my_music_app_songs_v3') || '[]');
+        let currentSongId = null;
+        let currentAudioIndex = 0;
+        let audio = new Audio();
+        let isPlaying = false;
+        let currentBlobUrl = null;
 
-        // --- CONTROLES DE ÁUDIO ---
-        const audio = document.getElementById('audioPlayer');
-        const btnPlayPause = document.getElementById('btnPlayPause');
+        let loopStart = null;
+        let loopEnd = null;
+
+        const playerCard = document.getElementById('playerCard');
+        const currentSongTitle = document.getElementById('currentSongTitle');
+        const selectAudioTrack = document.getElementById('selectAudioTrack');
+        const localAudioControls = document.getElementById('localAudioControls');
+        const inputLocalAudio = document.getElementById('inputLocalAudio');
+        const audioStatusBadge = document.getElementById('audioStatusBadge');
+        const videoEmbedArea = document.getElementById('videoEmbedArea');
+        const videoIframeContainer = document.getElementById('videoIframeContainer');
+        const btnExternalVideo = document.getElementById('btnExternalVideo');
+        const audioLocalControlsArea = document.getElementById('audioLocalControlsArea');
+        const progressContainer = document.getElementById('progressContainer');
         const progressBar = document.getElementById('progressBar');
+        const loopRegion = document.getElementById('loopRegion');
         const currentTimeEl = document.getElementById('currentTime');
-        const durationTimeEl = document.getElementById('durationTime');
-        const btnSpeed = document.getElementById('btnSpeed');
+        const durationEl = document.getElementById('duration');
+        const btnPlayPause = document.getElementById('btnPlayPause');
+        const btnRewind5 = document.getElementById('btnRewind5');
+        const btnForward5 = document.getElementById('btnForward5');
+        const btnSpeedDown = document.getElementById('btnSpeedDown');
+        const btnSpeedUp = document.getElementById('btnSpeedUp');
+        const speedValue = document.getElementById('speedValue');
+        const markersList = document.getElementById('markersList');
+        const btnAddMarker = document.getElementById('btnAddMarker');
+        const songsList = document.getElementById('songsList');
+        const btnOpenNewSongModal = document.getElementById('btnOpenNewSongModal');
+        const btnEditCurrent = document.getElementById('btnEditCurrent');
 
-        let pointA = null;
-        let pointB = null;
-        let isLoopActive = false;
-
-        const speeds = [1, 0.75, 0.5];
-        let currentSpeedIdx = 0;
-
-        btnPlayPause.addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play();
-                btnPlayPause.textContent = '⏸️ Pausar';
-            } else {
-                audio.pause();
-                btnPlayPause.textContent = '▶️ Play';
-            }
-        });
-
-        btnSpeed.addEventListener('click', () => {
-            currentSpeedIdx = (currentSpeedIdx + 1) % speeds.length;
-            const speed = speeds[currentSpeedIdx];
-            audio.playbackRate = speed;
-            btnSpeed.textContent = `⚡ Velocidade: ${speed}x`;
-        });
-
-        audio.addEventListener('loadedmetadata', () => {
-            progressBar.max = audio.duration;
-            durationTimeEl.textContent = formatTime(audio.duration);
-            loadSavedLoop();
-        });
-
-        audio.addEventListener('timeupdate', () => {
-            progressBar.value = audio.currentTime;
-            currentTimeEl.textContent = formatTime(audio.currentTime);
-
-            if (isLoopActive && pointB !== null && audio.currentTime >= pointB) {
-                audio.currentTime = pointA || 0;
-            }
-        });
-
-        progressBar.addEventListener('input', () => {
-            audio.currentTime = progressBar.value;
-        });
-
-        // --- LOOP A-B ---
-        const btnSetA = document.getElementById('btnSetA');
-        const btnSetB = document.getElementById('btnSetB');
-        const btnToggleLoop = document.getElementById('btnToggleLoop');
+        const btnSetLoopA = document.getElementById('btnSetLoopA');
+        const btnSetLoopB = document.getElementById('btnSetLoopB');
         const btnClearLoop = document.getElementById('btnClearLoop');
-        const loopStatus = document.getElementById('loopStatus');
+        const loopStatusText = document.getElementById('loopStatusText');
 
-        btnSetA.addEventListener('click', () => {
-            pointA = audio.currentTime;
-            updateLoopUI();
-            saveLoop();
-        });
+        const songModal = document.getElementById('songModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const inputSongTitle = document.getElementById('inputSongTitle');
+        const audioManageList = document.getElementById('audioManageList');
+        const btnAddTrackField = document.getElementById('btnAddTrackField');
+        const btnCloseModal = document.getElementById('btnCloseModal');
+        const btnSaveSong = document.getElementById('btnSaveSong');
+        const btnDeleteSong = document.getElementById('btnDeleteSong');
 
-        btnSetB.addEventListener('click', () => {
-            pointB = audio.currentTime;
-            updateLoopUI();
-            saveLoop();
-        });
+        let editingSong = null;
 
-        btnToggleLoop.addEventListener('click', () => {
-            isLoopActive = !isLoopActive;
-            btnToggleLoop.classList.toggle('btn-active', isLoopActive);
-            updateLoopUI();
-        });
+        async function init() {
+            await audioDB.init();
+            renderSongsList();
+            setupEventListeners();
+        }
 
-        btnClearLoop.addEventListener('click', () => {
-            pointA = null;
-            pointB = null;
-            isLoopActive = false;
-            btnToggleLoop.classList.remove('btn-active');
+        function setupEventListeners() {
+            btnPlayPause.addEventListener('click', togglePlay);
+            btnRewind5.addEventListener('click', () => audio.currentTime = Math.max(0, audio.currentTime - 5));
+            btnForward5.addEventListener('click', () => audio.currentTime = Math.min(audio.duration, audio.currentTime + 5));
+            
+            btnSpeedDown.addEventListener('click', () => changeSpeed(-0.1));
+            btnSpeedUp.addEventListener('click', () => changeSpeed(0.1));
+
+            btnSetLoopA.addEventListener('click', setLoopA);
+            btnSetLoopB.addEventListener('click', setLoopB);
+            btnClearLoop.addEventListener('click', clearLoop);
+
+            progressContainer.addEventListener('click', (e) => {
+                if (!audio.duration) return;
+                const rect = progressContainer.getBoundingClientRect();
+                const clickPos = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = clickPos * audio.duration;
+            });
+
+            audio.addEventListener('timeupdate', updateProgress);
+            audio.addEventListener('loadedmetadata', updateDuration);
+            audio.addEventListener('ended', () => { isPlaying = false; btnPlayPause.innerText = '▶️'; });
+
+            selectAudioTrack.addEventListener('change', (e) => {
+                currentAudioIndex = parseInt(e.target.value);
+                loadSelectedTrackAudio();
+            });
+
+            inputLocalAudio.addEventListener('change', handleLocalAudioSelect);
+            btnAddMarker.addEventListener('click', addMarker);
+
+            btnOpenNewSongModal.addEventListener('click', openNewSongModal);
+            btnEditCurrent.addEventListener('click', () => openEditSongModal(currentSongId));
+            btnCloseModal.addEventListener('click', closeModal);
+            btnSaveSong.addEventListener('click', saveSong);
+            btnDeleteSong.addEventListener('click', deleteCurrentEditingSong);
+            btnAddTrackField.addEventListener('click', () => addTrackField('', ''));
+        }
+
+        function renderSongsList() {
+            songsList.innerHTML = '';
+            if (songs.length === 0) {
+                songsList.innerHTML = '<p style="color: #64748b; font-size: 0.9rem;">Nenhuma música cadastrada.</p>';
+                return;
+            }
+
+            songs.forEach((song, index) => {
+                const item = document.createElement('div');
+                item.className = 'song-card';
+                item.innerHTML = `
+                    <div class="order-btn-group">
+                        <button class="btn btn-secondary order-btn" onclick="moveSong(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>⬆️</button>
+                        <button class="btn btn-secondary order-btn" onclick="moveSong(${index}, 1)" ${index === songs.length - 1 ? 'disabled style="opacity:0.3"' : ''}>⬇️</button>
+                    </div>
+                    <div class="song-card-title">${song.title}</div>
+                    <div class="song-actions">
+                        <button class="btn btn-secondary btn-sm" onclick="openEditSongModal('${song.id}')" title="Editar">✏️</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteSongDirect('${song.id}')" title="Excluir">🗑️</button>
+                        <button class="btn btn-sm" onclick="playSong('${song.id}')">▶️ Abrir</button>
+                    </div>
+                `;
+                songsList.appendChild(item);
+            });
+        }
+
+        function moveSong(index, direction) {
+            const targetIndex = index + direction;
+            if (targetIndex < 0 || targetIndex >= songs.length) return;
+
+            const temp = songs[index];
+            songs[index] = songs[targetIndex];
+            songs[targetIndex] = temp;
+
+            saveToStorage();
+            renderSongsList();
+        }
+
+        async function deleteSongDirect(id) {
+            const song = songs.find(s => s.id === id);
+            if (!song) return;
+
+            if (confirm(`Tem certeza que deseja excluir a música "${song.title}"? Todos os áudios gravados nela serão apagados.`)) {
+                if (song.tracks) {
+                    for (let i = 0; i < song.tracks.length; i++) {
+                        await audioDB.deleteAudio(`${song.id}_${i}`);
+                    }
+                }
+
+                songs = songs.filter(s => s.id !== id);
+                saveToStorage();
+                renderSongsList();
+
+                if (currentSongId === id) {
+                    currentSongId = null;
+                    playerCard.classList.add('hidden');
+                    audio.pause();
+                }
+            }
+        }
+
+        async function playSong(id) {
+            const song = songs.find(s => s.id === id);
+            if (!song) return;
+
+            currentSongId = id;
+            currentSongTitle.innerText = song.title;
+            playerCard.classList.remove('hidden');
+            clearLoop();
+
+            selectAudioTrack.innerHTML = '';
+            if (song.tracks && song.tracks.length > 0) {
+                song.tracks.forEach((t, idx) => {
+                    const opt = document.createElement('option');
+                    opt.value = idx;
+                    opt.innerText = t.name + (t.videoUrl ? ' (🎥 Vídeo Link)' : '');
+                    selectAudioTrack.appendChild(opt);
+                });
+                currentAudioIndex = 0;
+                await loadSelectedTrackAudio();
+            }
+
+            renderMarkers();
+            playerCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // EXTRATOR E CONVERTEDOR DE URL DO YOUTUBE
+        function extractYouTubeEmbedUrl(url) {
+            if (!url) return null;
+            let videoId = null;
+
+            // Padrões diversos de URL do Youtube (watch, embed, shorts, youtu.be)
+            const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/\s]{11})/;
+            const match = url.match(regExp);
+
+            if (match && match[1]) {
+                videoId = match[1];
+                return `https://www.youtube.com/embed/${videoId}?rel=0`;
+            }
+
+            return url;
+        }
+
+        async function loadSelectedTrackAudio() {
+            const song = songs.find(s => s.id === currentSongId);
+            if (!song || !song.tracks[currentAudioIndex]) return;
+
+            const currentTrack = song.tracks[currentAudioIndex];
+
+            // Parar áudio anterior
+            audio.pause();
+            isPlaying = false;
+            btnPlayPause.innerText = '▶️';
+
+            if (currentTrack.videoUrl) {
+                // MODO LINK DE VÍDEO (EMBED)
+                localAudioControls.classList.add('hidden');
+                audioLocalControlsArea.classList.add('hidden');
+                videoEmbedArea.classList.remove('hidden');
+
+                const embedUrl = extractYouTubeEmbedUrl(currentTrack.videoUrl);
+                btnExternalVideo.href = currentTrack.videoUrl;
+
+                videoIframeContainer.innerHTML = `<iframe src="${embedUrl}" title="Vídeo do YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            } else {
+                // MODO FICHEIRO DE ÁUDIO LOCAL
+                videoEmbedArea.classList.add('hidden');
+                videoIframeContainer.innerHTML = '';
+                localAudioControls.classList.remove('hidden');
+                audioLocalControlsArea.classList.remove('hidden');
+
+                const dbKey = `${currentSongId}_${currentAudioIndex}`;
+                if (currentBlobUrl) {
+                    URL.revokeObjectURL(currentBlobUrl);
+                    currentBlobUrl = null;
+                }
+
+                const storedBlob = await audioDB.getAudio(dbKey);
+
+                if (storedBlob) {
+                    currentBlobUrl = URL.createObjectURL(storedBlob);
+                    audio.src = currentBlobUrl;
+                    audio.playbackRate = parseFloat(speedValue.innerText);
+                    audioStatusBadge.className = 'status-badge status-saved';
+                    audioStatusBadge.innerText = 'Áudio Salvo no App ✓';
+                } else {
+                    audio.src = '';
+                    audioStatusBadge.className = 'status-badge status-empty';
+                    audioStatusBadge.innerText = 'Sem áudio importado';
+                    currentTimeEl.innerText = '0:00';
+                    durationEl.innerText = '0:00';
+                }
+            }
+        }
+
+        async function handleLocalAudioSelect(e) {
+            const file = e.target.files[0];
+            if (!file || !currentSongId) return;
+
+            const dbKey = `${currentSongId}_${currentAudioIndex}`;
+            let finalBlob = file;
+
+            if (file.type.startsWith('video/')) {
+                audioStatusBadge.className = 'status-badge status-processing';
+                audioStatusBadge.innerText = '⏳ Extraindo áudio do vídeo...';
+                try {
+                    finalBlob = await extractAudioFromVideo(file);
+                } catch (err) {
+                    console.error(err);
+                    alert('Erro ao extrair o áudio do vídeo. Tente outro arquivo.');
+                    audioStatusBadge.className = 'status-badge status-empty';
+                    audioStatusBadge.innerText = 'Erro na conversão';
+                    inputLocalAudio.value = '';
+                    return;
+                }
+            } else {
+                audioStatusBadge.className = 'status-badge status-processing';
+                audioStatusBadge.innerText = '⏳ Salvando áudio...';
+            }
+
+            await audioDB.saveAudio(dbKey, finalBlob);
+            await loadSelectedTrackAudio();
+            inputLocalAudio.value = '';
+        }
+
+        async function extractAudioFromVideo(videoFile) {
+            const arrayBuffer = await videoFile.arrayBuffer();
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+
+            const offlineCtx = new OfflineAudioContext(
+                audioBuffer.numberOfChannels,
+                audioBuffer.length,
+                audioBuffer.sampleRate
+            );
+
+            const source = offlineCtx.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(offlineCtx.destination);
+            source.start();
+
+            const renderedBuffer = await offlineCtx.startRendering();
+            return audioBufferToWavBlob(renderedBuffer);
+        }
+
+        function audioBufferToWavBlob(buffer) {
+            const numOfChan = buffer.numberOfChannels;
+            const length = buffer.length * numOfChan * 2 + 44;
+            const out = new DataView(new ArrayBuffer(length));
+            let channels = [], sampleRate = buffer.sampleRate, offset = 0, pos = 0;
+
+            function writeString(str) {
+                for (let i = 0; i < str.length; i++) out.setUint8(pos++, str.charCodeAt(i));
+            }
+            function setUint16(data) { out.setUint16(pos, data, true); pos += 2; }
+            function setUint32(data) { out.setUint32(pos, data, true); pos += 4; }
+
+            writeString('RIFF');
+            setUint32(length - 8);
+            writeString('WAVE');
+            writeString('fmt ');
+            setUint32(16);
+            setUint16(1);
+            setUint16(numOfChan);
+            setUint32(sampleRate);
+            setUint32(sampleRate * 2 * numOfChan);
+            setUint16(numOfChan * 2);
+            setUint16(16);
+            writeString('data');
+            setUint32(length - pos - 4);
+
+            for (let i = 0; i < buffer.numberOfChannels; i++) channels.push(buffer.getChannelData(i));
+
+            while (offset < buffer.length) {
+                for (let i = 0; i < numOfChan; i++) {
+                    let sample = Math.max(-1, Math.min(1, channels[i][offset]));
+                    sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+                    out.setInt16(pos, sample, true);
+                    pos += 2;
+                }
+                offset++;
+            }
+            return new Blob([out.buffer], { type: 'audio/wav' });
+        }
+
+        function togglePlay() {
+            if (!audio.src) {
+                alert('Por favor, importe um arquivo de áudio ou vídeo para esta faixa primeiro.');
+                return;
+            }
+            if (isPlaying) {
+                audio.pause();
+                btnPlayPause.innerText = '▶️';
+            } else {
+                audio.play();
+                btnPlayPause.innerText = '⏸️';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function updateProgress() {
+            if (!audio.duration) return;
+
+            if (loopEnd !== null && audio.currentTime >= loopEnd) {
+                audio.currentTime = loopStart !== null ? loopStart : 0;
+            }
+
+            const pct = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = pct + '%';
+            currentTimeEl.innerText = formatTime(audio.currentTime);
+
+            updateLoopVisual();
+        }
+
+        function setLoopA() {
+            if (!audio.duration) return;
+            loopStart = audio.currentTime;
+            if (loopEnd !== null && loopEnd <= loopStart) {
+                loopEnd = null;
+            }
             updateLoopUI();
-            localStorage.removeItem('guia_play_loop');
-        });
+        }
+
+        function setLoopB() {
+            if (!audio.duration || loopStart === null) {
+                alert('Por favor, defina primeiro o ponto de início (A).');
+                return;
+            }
+            if (audio.currentTime <= loopStart) {
+                alert('O ponto final (B) precisa ser depois do ponto inicial (A).');
+                return;
+            }
+            loopEnd = audio.currentTime;
+            updateLoopUI();
+        }
+
+        function clearLoop() {
+            loopStart = null;
+            loopEnd = null;
+            loopRegion.classList.add('hidden');
+            updateLoopUI();
+        }
 
         function updateLoopUI() {
-            let strA = pointA !== null ? formatTime(pointA) : '--:--';
-            let strB = pointB !== null ? formatTime(pointB) : '--:--';
-            let statusText = `Trecho: A (${strA}) até B (${strB})`;
-            if (isLoopActive) statusText += ' [LOOP ATIVO]';
-            loopStatus.textContent = statusText;
+            if (loopStart !== null && loopEnd === null) {
+                loopStatusText.innerText = `Início em ${formatTime(loopStart)} (Aguardando Fim B...)`;
+            } else if (loopStart !== null && loopEnd !== null) {
+                loopStatusText.innerText = `Repetindo de ${formatTime(loopStart)} até ${formatTime(loopEnd)} 🔁`;
+            } else {
+                loopStatusText.innerText = 'Inativo';
+            }
+            updateLoopVisual();
         }
 
-        function saveLoop() {
-            if (pointA !== null || pointB !== null) {
-                localStorage.setItem('guia_play_loop', JSON.stringify({ pointA, pointB }));
+        function updateLoopVisual() {
+            if (!audio.duration || loopStart === null) {
+                loopRegion.classList.add('hidden');
+                return;
+            }
+
+            const startPct = (loopStart / audio.duration) * 100;
+            const currentEnd = loopEnd !== null ? loopEnd : audio.currentTime;
+            const endPct = (currentEnd / audio.duration) * 100;
+
+            loopRegion.style.left = startPct + '%';
+            loopRegion.style.width = Math.max(0, endPct - startPct) + '%';
+            loopRegion.classList.remove('hidden');
+        }
+
+        function updateDuration() {
+            durationEl.innerText = formatTime(audio.duration);
+        }
+
+        function changeSpeed(delta) {
+            let newSpeed = Math.round((parseFloat(speedValue.innerText) + delta) * 10) / 10;
+            if (newSpeed < 0.5) newSpeed = 0.5;
+            if (newSpeed > 2.0) newSpeed = 2.0;
+            speedValue.innerText = newSpeed.toFixed(1) + 'x';
+            audio.playbackRate = newSpeed;
+        }
+
+        function formatTime(sec) {
+            if (isNaN(sec)) return '0:00';
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function addMarker() {
+            if (!currentSongId || !audio.duration) return;
+            const song = songs.find(s => s.id === currentSongId);
+            if (!song) return;
+
+            if (!song.markers) song.markers = [];
+            const time = audio.currentTime;
+            const label = prompt('Nome do trecho (ex: Refrão, Solo, Estrofe 2):', `Trecho ${song.markers.length + 1}`);
+            if (label !== null) {
+                song.markers.push({ id: Date.now().toString(), time, label: label || 'Trecho' });
+                saveToStorage();
+                renderMarkers();
             }
         }
 
-        function loadSavedLoop() {
-            const saved = localStorage.getItem('guia_play_loop');
-            if (saved) {
-                const data = JSON.parse(saved);
-                pointA = data.pointA;
-                pointB = data.pointB;
-                updateLoopUI();
+        function renderMarkers() {
+            markersList.innerHTML = '';
+            const song = songs.find(s => s.id === currentSongId);
+            if (!song || !song.markers || song.markers.length === 0) {
+                markersList.innerHTML = `
+                    <div style="background: #f1f5f9; padding: 12px; border-radius: 8px; font-size: 0.85rem; color: #475569; text-align: center; border: 1px dashed #cbd5e1;">
+                        💡 <b>Dica de Estudo:</b> Escute a música e crie atalhos nos trechos que quer praticar!
+                    </div>
+                `;
+                return;
+            }
+
+            song.markers.sort((a, b) => a.time - b.time);
+
+            song.markers.forEach(m => {
+                const div = document.createElement('div');
+                div.className = 'marker-item';
+                div.innerHTML = `
+                    <div class="marker-info" onclick="jumpToMarker(${m.time})">
+                        <span class="marker-time">▶ ${formatTime(m.time)}</span>
+                        <span>${m.label}</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" onclick="deleteMarker('${m.id}')" title="Remover ponto">✕</button>
+                `;
+                markersList.appendChild(div);
+            });
+        }
+
+        function jumpToMarker(time) {
+            audio.currentTime = time;
+        }
+
+        function deleteMarker(markerId) {
+            const song = songs.find(s => s.id === currentSongId);
+            if (!song) return;
+            song.markers = song.markers.filter(m => m.id !== markerId);
+            saveToStorage();
+            renderMarkers();
+        }
+
+        function openNewSongModal() {
+            editingSong = {
+                id: Date.now().toString(),
+                title: '',
+                tracks: [{ name: 'Geral / Acompanhamento', videoUrl: '' }],
+                markers: []
+            };
+            modalTitle.innerText = 'Cadastrar Nova Música';
+            inputSongTitle.value = '';
+            btnDeleteSong.style.display = 'none';
+            renderAudioManageList();
+            songModal.classList.remove('hidden');
+        }
+
+        function openEditSongModal(id) {
+            const song = songs.find(s => s.id === id);
+            if (!song) return;
+
+            editingSong = JSON.parse(JSON.stringify(song));
+            modalTitle.innerText = 'Editar Música';
+            inputSongTitle.value = editingSong.title;
+            btnDeleteSong.style.display = 'block';
+            renderAudioManageList();
+            songModal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            songModal.classList.add('hidden');
+            editingSong = null;
+        }
+
+        function renderAudioManageList() {
+            audioManageList.innerHTML = '';
+            if (!editingSong.tracks) editingSong.tracks = [];
+
+            editingSong.tracks.forEach((t) => {
+                addTrackField(t.name, t.videoUrl || '');
+            });
+        }
+
+        function addTrackField(name = '', videoUrl = '') {
+            const div = document.createElement('div');
+            div.className = 'audio-item-manage';
+            div.innerHTML = `
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <input type="text" value="${name}" placeholder="Nome do naipe / faixa" class="track-name-input" style="flex-grow: 1;">
+                    <button class="btn btn-danger btn-sm" onclick="removeTrackField(this)">🗑️</button>
+                </div>
+                <input type="text" value="${videoUrl}" placeholder="🔗 Opcional: Cole aqui o Link de vídeo (ex: YouTube)" class="track-url-input" style="font-size: 0.85rem;">
+            `;
+            audioManageList.appendChild(div);
+        }
+
+        function removeTrackField(btn) {
+            btn.parentElement.parentElement.remove();
+        }
+
+        function saveSong() {
+            if (!inputSongTitle.value.trim()) {
+                alert('Por favor, informe o nome da música.');
+                return;
+            }
+
+            editingSong.title = inputSongTitle.value.trim();
+
+            const trackElements = audioManageList.querySelectorAll('.audio-item-manage');
+            editingSong.tracks = [];
+            trackElements.forEach(el => {
+                const nameInput = el.querySelector('.track-name-input');
+                const urlInput = el.querySelector('.track-url-input');
+                if (nameInput.value.trim()) {
+                    editingSong.tracks.push({ 
+                        name: nameInput.value.trim(),
+                        videoUrl: urlInput.value.trim()
+                    });
+                }
+            });
+
+            if (editingSong.tracks.length === 0) {
+                editingSong.tracks.push({ name: 'Áudio Principal', videoUrl: '' });
+            }
+
+            const existingIndex = songs.findIndex(s => s.id === editingSong.id);
+            if (existingIndex >= 0) {
+                songs[existingIndex] = editingSong;
+            } else {
+                songs.push(editingSong);
+            }
+
+            saveToStorage();
+            renderSongsList();
+
+            if (currentSongId === editingSong.id) {
+                playSong(editingSong.id);
+            }
+
+            closeModal();
+        }
+
+        async function deleteCurrentEditingSong() {
+            if (editingSong) {
+                await deleteSongDirect(editingSong.id);
+                closeModal();
             }
         }
 
-        function formatTime(seconds) {
-            const m = Math.floor(seconds / 60);
-            const s = Math.floor(seconds % 60);
-            return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        function saveToStorage() {
+            localStorage.setItem('my_music_app_songs_v3', JSON.stringify(songs));
         }
+
+        init();
     </script>
 </body>
 </html>
