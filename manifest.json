@@ -1,0 +1,16 @@
+{
+  "short_name": "Guia Play",
+  "name": "Guia Play - Suas guias de estudo sempre à mão",
+  "icons": [
+    {
+      "src": "icone.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "display": "standalone"
+}
