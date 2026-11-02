@@ -678,6 +678,19 @@
         let editingSong = null;
 
         async function init() {
+            // Solicita armazenamento persistente para o navegador não apagar os áudios
+            if (navigator.storage && navigator.storage.persist) {
+                const isPersisted = await navigator.storage.persisted();
+                if (!isPersisted) {
+                    const granted = await navigator.storage.persist();
+                    if (granted) {
+                        console.log("Armazenamento persistente ativado com sucesso!");
+                    } else {
+                        console.log("O armazenamento persistente foi negado pelo navegador.");
+                    }
+                }
+            }
+
             await audioDB.init();
             renderSongsList();
             setupEventListeners();
